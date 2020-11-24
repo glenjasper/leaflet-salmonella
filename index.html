@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Load Leaflet: http://leafletjs.com/ -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+        <!-- https://github.com/StephSaephan/leaflet-map-example -->
+        <script src="resources/js/leaflet-providers.js" type="text/javascript"></script>
+
+        <!-- https://github.com/ismyrnow/leaflet-groupedlayercontrol -->
+        <link rel="stylesheet" href="resources/css/leaflet.groupedlayercontrol.css">
+        <script src="resources/js/leaflet.groupedlayercontrol.js" type="text/javascript"></script>
+
+        <!-- https://github.com/heyman/leaflet-usermarker -->
+        <link rel="stylesheet" href="resources/css/leaflet.usermarker.css">
+        <script src="resources/js/leaflet.usermarker.js" type="text/javascript"></script>
+
+        <!-- fontawesome, jquery and bootstrap -->
+        <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            html,
+            body,
+            #mapid {
+                height: 100%;
+                width: 100%;
+            }
+            .font-size-title {
+                font-size: 15px;
+                font-weight: bold;
+            }
+            .font-size-body {
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mapid"></div>
+
+        <script>
+            const mymap = L.map('mapid').setView([-9, -75], 5);
+            //mymap.zoomControl.setPosition('bottomright');
+
+            const width_ = 23;
+            const height_ = 23;
+            const _icon = L.icon({
+                iconUrl: 'resources/image/pointer01.png',
+                iconSize: [width_, height_],
+                iconAnchor: [width_/2, height_/2],
+            });
+
+            var locations = [
+                [-17.1927, -70.9328, 'Moquegua (1 Sample)'],
+                [-15.8402, -70.0219, 'Puno (2 Samples)'],
+                [-14.0755, -75.7342, 'Ica (2 Samples)'],
+                [-14.0567, -75.73, 'Hospital Santa María del Socorro (1 Sample)'],
+                [-14.0505, -73.0877, 'Apurimac (1 Sample)'],
+                [-13.532, -71.9675, 'Cusco (4 Samples)'],
+                [-13.078474, -76.383905, 'DIGESA (1 Sample)'],
+                [-12.1445, -77.0223, 'DISA Lima Ciudad (4 Samples)'],
+                [-12.1124, -76.9983, 'INEN (13 Samples)'],
+                [-12.1081, -77.026, 'SANIPES (3 Samples)'],
+                [-12.0774, -77.0531, 'CENAN / INS (3 Samples)'],
+                [-12.0645, -77.0456, 'INSN (5 Samples)'],
+                [-12.0638, -77.1257, 'Dirección de Salud I (4 Samples)'],
+                [-12.0584, -77.0216, 'Hospital Emergencias Pediátricas (15 Samples)'],
+                [-12.0568, -77.016, 'Hospital Dos de Mayo (3 Samples)'],
+                [-12.056, -77.0844, 'UNMSM (1 Sample)'],
+                [-12.0498, -77.0419, 'Hospital San Bartolomé (7 Samples)'],
+                [-12.0464, -77.0428, 'Lima (2 Samples)'],
+                [-12.041, -76.992, 'Hospital Hipólito Unanue (1 Sample)'],
+                [-12.024, -77.0565, 'Instituto de Medicina Tropical UPCH (4 Samples)'],
+                [-12.0048, -76.8446, 'Lima Este (2 Samples)'],
+                [-11.7669, -70.812, 'Madre de Dios (1 Sample)'],
+                [-9.9304, -76.2366, 'DIRESA Huanuco (1 Sample)'],
+                [-9.5344, -77.5318, 'DIRESA Ancash (1 Sample)'],
+                [-9.5261, -77.5288, 'Huaraz (6 Samples)'],
+                [-9.325, -77.5619, 'Ancash (1 Sample)'],
+                [-8.1014, -79.0392, 'DIRESA Trujillo (7 Samples)'],
+                [-7.1617, -78.5128, 'Cajamarca (4 Samples)'],
+                [-12.11472, -77.00598, 'Lab. INTEVET S.A (3 Samples)'],
+                [-14.0505, -73.0877, 'LRR Apurimac (1 Sample)'],
+                [-6.762961, -79.836614, 'LRR Chiclayo (5 Samples)']
+            ];
+
+            for (var i = 0; i < locations.length; i++) {
+                marker = new L.marker([locations[i][0], locations[i][1]], { icon: _icon })
+                                .bindPopup(locations[i][2])
+                                .addTo(mymap);
+                alter_color = false;
+            }
+            //L.marker([-12.04318, -77.02824]).bindPopup('Lima').addTo(mymap);
+
+            const tileUrl = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}.png';
+            const attribution = '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+            const tiles = L.tileLayer(tileUrl, { attribution });
+            tiles.addTo(mymap);
+
+            // https://leaflet-extras.github.io/leaflet-providers/preview
+            const tile_OSM_mapnik = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const tile_OSM_hot = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+            const tile_Stamen_Watercolor = 'https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png';
+            const tile_Esri_DeLorme = 'https://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}.png';
+            const tile_Esri_WorldTopoMap = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png';
+            const tile_Esri_NatGeoWorldMap = 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.png';
+            const tile_Wikimedia = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png';
+            const tile_GeoportailFrance_ignMaps = 'https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/jpeg&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
+
+            //var defaultBase = L.tileLayer.provider('Stamen.TonerLite').addTo(mymap);
+            const baseLayers = {
+                'ArcGIS': tiles,
+                'OSM.Mapnik': L.tileLayer(tile_OSM_mapnik, { attribution }),
+                'OSM.Hot': L.tileLayer(tile_OSM_hot, { attribution }),
+                'OSM.Topo': L.tileLayer.provider('OpenTopoMap'),
+                //'Stamen.Watercolor': L.tileLayer(tile_Stamen_Watercolor, { attribution }),
+                //'Stamen.Toner': L.tileLayer.provider('Stamen.TonerLite'),
+                'ESRI.DeLorme': L.tileLayer(tile_Esri_DeLorme, { attribution }),
+                'ESRI.WorldTopoMap': L.tileLayer(tile_Esri_WorldTopoMap, { attribution }),
+                'ESRI.NatGeoWorldMap': L.tileLayer(tile_Esri_NatGeoWorldMap, { attribution }),
+                //'ESRI.Imagery': L.tileLayer.provider('Esri.WorldImagery'),
+                //'ESRI.Ocean.BaseMap': L.tileLayer.provider('Esri.OceanBasemap'),
+                //'GeoportailFrance.ignMaps': L.tileLayer(tile_GeoportailFrance_ignMaps, { attribution }),
+                'USGS.TNM': L.tileLayer.provider('USGSTNM'),
+                'Wikimedia': L.tileLayer(tile_Wikimedia, { attribution }),
+            };
+
+            // add layer switch control
+            L.control.groupedLayers(baseLayers).addTo(mymap);
+
+            // add scale bar to map
+            L.control.scale({ position: 'bottomleft' }).addTo(mymap);
+        </script>
+    </body>
+</html>
